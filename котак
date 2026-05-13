@@ -109,7 +109,7 @@ async def manage_cart(action, user_id, item_id=None):
 
 # ===== ИНТЕГРАЦИЯ CRYPTOBOT =====
 async def create_invoice(amount_rub):
-    url = "https://pay.cryptobot.it/api/createInvoice"
+    url = "https://pay.crypt.bot/"
     headers = {"Crypto-Pay-API-Token": CRYPTO_TOKEN}
     # Конвертация в USDT (примерный курс 95)
     amount_usdt = round(amount_rub / 95, 2)
