@@ -9,7 +9,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import FSInputFile
 
 # ===== НАСТРОЙКИ =====
-TOKEN = "8430007429:AAF2rej5vRJEfpuToRELolCYqpJpwVfzBnw"
+TOKEN = "8913224708:AAFS7tBfuQ0Vogc7OECTfd5ROtRwxLoV5Io"
 CRYPTO_TOKEN = "581059:AAXPJvhrOQZjbtlxWd6fNM3MLQ6gbZ36akd"
 DB_PATH = "bot_store.db"
 SHARED_DIR = "./images" 
