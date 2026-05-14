@@ -22,65 +22,119 @@ logging.basicConfig(level=logging.INFO)
 class CityState(StatesGroup):
     waiting_for_city = State()
 
-# ===== ГИГАНТСКАЯ БАЗА ДАННЫХ (8-15 ТОВАРОВ НА МАГАЗИН) =====
-CATEGORIES = {
-    "bdsm": {"name": "BDSM (Original)", "items": {
-        "pyl": ("Мефедрон Пыльца 1г", 1890, "💎 **VHQ+ Crystal Powder**. Результат пятикратной очистки. Белоснежная пудра, напоминающая сахарную пыль. Дарит мгновенную эйфорию и глубокую эмпатию. Чистота 99.8%."),
-        "kris": ("Альфа-ПВП Кристалл 1г", 1690, "⚡ **Blue Lightning**. Крупные изумрудные камни. Мощнейшая стимуляция ЦНС, взрывной выброс дофамина и запредельная работоспособность."),
-        "per": ("Кокаин Перу 0.5г", 4090, "❄️ **Royal Peru**. Прямые поставки. Маслянистый камень с жемчужным отливом. Дарит ледяную уверенность и ясность ума без лишней тахикардии."),
-        "gor": ("Шишки Gorilla Glue 1г", 1690, "🌿 **Sticky Monster**. ТГК 27%. Очень смолистые бошки. Мощный 'стоун' эффект, полное расслабление и избавление от любых тревог."),
-        "me": ("Метамфетамин 1г", 2390, "🏔 **Ice Glass**. Чистые прозрачные иглы. 12-18 часов непрерывной активности. Идеально для длительных марафонов или сложной работы."),
-        "lsd": ("LSD-25 220мкг", 1400, "🌈 **Hoffman**. Марки высшего качества. Глубокое погружение в подсознание, яркие визуальные эффекты и растворение эго."),
-        "mdm": ("MDMA Кристаллы 1г", 2700, "💖 **Molly Dreams**. Кристаллы цвета шампань. Музыка становится объемной, а прикосновения приносят запредельное удовольствие."),
-        "amf": ("Амфетамин VHQ 1г", 1800, "🏎 **Speedway**. Чистый сульфат. Ровная стимуляция, отсутствие побочек и легкий выход."),
-        "has": ("Гашиш Ice-O-Lator 1г", 2100, "🧊 **Ice Cream**. Самый чистый гашиш, полученный ледяной экстракцией. Мощный седативный эффект."),
-        "vape": ("THC Картридж 1мл", 3500, "💨 **Stealth Mode**. 95% дистиллят ТГК. Без запаха, хватает на 400 затяжек. Удобно и незаметно.")
-    }},
-    "lavka": {"name": "Lavka (Гипермаркет)", "items": {
-        "lv1": ("Мефедрон Кристалл 1г", 2100, "🔮 **Big Diamonds**. Крупные, прозрачные камни. Минимум примесей, максимум эйфории. Продукт для ценителей качества."),
-        "lv2": ("Кокаин Колумбия 0.5г", 4500, "🇨🇴 **Medellin Star**. Классический колумбийский кокаин. Дарит мягкий подъем настроения и социальную открытость."),
-        "lv3": ("Шишки White Widow 1г", 1800, "🌨 **Белая Вдова**. Культовый сорт. Дарит эйфорический взлет и приятное расслабление в конце трипа."),
-        "lv4": ("Гашиш Euro 1г", 1400, "🍫 **Classic Gold**. Мягкий, пластичный гашиш с хвойным ароматом. Идеален для вечернего релакса."),
-        "lv5": ("Экстази Punisher 1шт", 900, "🧨 **Blue Punisher (300mg)**. Очень сильные таблетки. Рекомендуется начинать с половины. Взрывной коктейль эмоций."),
-        "lv6": ("Амфетамин HQ 1г", 1600, "⚡ **White Power**. Классический фен для тех, кому нужно быстро привести себя в тонус и успеть все."),
-        "lv7": ("Грибы Golden Teacher 3г", 2500, "🍄 **Мудрость Предков**. Сушеные грибы для духовного путешествия. Дарят глубокие философские инсайты."),
-        "lv8": ("Кетамин VHQ 1г", 2800, "🌀 **K-Hole**. Продукт высокой очистки. Позволяет взглянуть на мир под совершенно иным углом."),
-        "lv9": ("Метадон VHQ 1г", 2200, "⚓ **Anchor**. Сильное обезболивающее и седативное действие. Только для опытных пользователей."),
-        "lv10": ("2C-B Сибирь 20мг", 1200, "🧬 **Nexus**. Уникальное сочетание психоделии и эмпатии. Яркие цвета и приятное тепло по телу.")
-    }},
-    "happiness": {"name": "Секрет Счастья", "items": {
-        "hp1": ("Шишки AK-47 1г", 1700, "🔫 **Автомат**. Сативный гибрид. Повышает креативность, вызывает смех и желание творить."),
-        "hp2": ("MDMA Таблетки 2шт", 1800, "🍬 **Skittles**. Две яркие таблетки по 220мг. Радужное настроение и любовь ко всему живому."),
-        "hp3": ("Мефедрон Мука 1г", 1750, "🌬 **Air Cloud**. Легкая мука, которая очень быстро всасывается и дарит ощущение невесомости."),
-        "hp4": ("LSD California 250ug", 1600, "☀️ **Sunshine**. Легендарная калифорнийская кислота. Самый чистый трип в вашей жизни."),
-        "hp5": ("Гашиш Марокко 1г", 1550, "🕌 **Maroc Cream**. Настоящий импорт. Мягкий эффект, глубокий вкус и полное умиротворение."),
-        "hp6": ("Кокаин Боливия 0.5г", 4200, "🇧🇴 **Bolivian Pure**. Высокогорный кокаин. Минимум стимуляции, максимум эйфории и уверенности."),
-        "hp7": ("ДМТ 0.5г", 6000, "🌌 **Духовная Молекула**. Самый мощный психоделик. Полное отделение от реальности на 15 минут."),
-        "hp8": ("Шишки Amnesia Haze 1г", 1900, "🍋 **Цитрусовый Взрыв**. ТГК 24%. Сатива, которая заставит вас забыть о всех проблемах."),
-        "hp9": ("Метамфетамин VHQ 1г", 3200, "💉 **Pure Meth**. Кристаллы медицинского качества. Чистая энергия без 'отходов'."),
-        "hp10": ("Ксанакс 2мг 5шт", 3000, "💊 **Relax Pack**. Аптечное качество. Идеально для выхода из марафонов или снятия паники.")
-    }},
-    "lidera": {"name": "LIDERA (Premium)", "items": {
-        "l1": ("Мефедрон Кристалл Премиум 1г", 2400, "👑 **Royal Crystal**. Самые крупные камни на рынке. Очистка 99.9%. Невероятная глубина чувств."),
-        "l2": ("Кокаин Fishscale 0.5г", 5500, "💎 **Чешуя**. Кокаин высшей пробы. Блестит как чешуя рыбы, маслянистый и невероятно чистый."),
-        "l3": ("Шишки Cali Import 1г", 3000, "🇺🇸 **California Dream**. Настоящий импорт из США. Вкус и мощь, которые невозможно повторить."),
-        "l4": ("Героин №4 1г", 4000, "🕊 **White Swan**. Чистейший белый героин. Эталонное качество для тех, кто понимает толк."),
-        "l5": ("MDMA Кристалл VHQ 1г", 3200, "✨ **Diamond MDMA**. Прозрачные как стекло кристаллы. Высшая точка эмпатии и любви."),
-        "l6": ("Метамфетамин 'Лед' 1г", 3500, "❄️ **Breaking Bad**. Те самые синие кристаллы. Максимально возможная чистота и длительность."),
-        "l7": ("Гашиш Static Sift 1г", 2500, "🍫 **Static Gold**. Гашиш, собранный с помощью статического электричества. Самые чистые трихомы."),
-        "l8": ("LSD GammaGoblin 200ug", 2200, "👺 **Goblin's Den**. Марки от легендарного производителя. Гарантия качества и предсказуемости трипа."),
-        "l9": ("2C-B Кристалл 0.1г", 3500, "🧬 **Pure Nexus**. Концентрат Сибири. Позволяет точно дозировать свое путешествие."),
-        "l10": ("Шишки Moonrock 1г", 4500, "🌑 **Лунная порода**. Шишка, вымоченная в масле и обсыпанная кифом. Самый мощный продукт из ТГК.")
-    }}
+# ===== ГИГАНТСКАЯ БАЗА ДАННЫХ (8-13 ТОВАРОВ В КАЖДОМ МАГАЗИНЕ) =====
+
+# Общие шаблоны описаний для наполнения
+DESCRIPTIONS = {
+    "mef": "💎 **Классика VHQ+**. Результат пятикратной перекристаллизации. Белоснежная пудра без посторонних запахов. Мягкая волна тепла, резкое усиление эмпатии и желания общаться.",
+    "alfa": "⚡ **Энергия в чистом виде**. Крупные, граненые кристаллы с изумрудным отливом. Мощный дофаминовый взрыв, обострение всех органов чувств, запредельная работоспособность.",
+    "coke_p": "❄️ **Перуанское золото**. Прямая поставка из предгорий Анд. Жирный, маслянистый камень с жемчужным блеском. Дарит ледяную уверенность и благородную эйфорию.",
+    "sh_gor": "🌿 **Липкий монстр**. ТГК до 28%. Плотные, тяжелые бутоны. Мощный 'стоун', который буквально прижимает к земле. Снимает любые мышечные зажимы.",
+    "sh_ak": "🔫 **Автомат Калашникова**. Сатива-доминантный гибрид. Мгновенный 'выстрел' радости в голову. Повышает креативность и вызывает приступы смеха.",
+    "gash": "🍫 **Мягкий шоколад**. Натуральный продукт, пластичный, темный. Глубокий, философский трип. Расслабляет тело, но оставляет сознание чистым.",
+    "mdma": "💖 **Кристаллы любви**. Чистый MDMA без добавок. Только тактильный восторг и музыка, которую вы начнете видеть глазами. Для самых близких моментов.",
+    "lsd": "🌈 **Золотой Учитель**. Духовное путешествие. Мягко показывает вам мир с другой стороны, даря яркие визуальные фракталы и глубокое понимание вселенной.",
+    "meth": "🏔 **Ice Crystal**. Прозрачные иглы. Самый продолжительный стимулятор в мире. Обеспечивает 12-18 часов непрерывной активности и острого ума.",
 }
 
-# Дозаполнение остальных магазинов для соответствия условию 8-15 товаров
-OTHER_SHOPS = ["grusha", "yamasaki", "tsum", "puffer", "pav"]
-for shop in OTHER_SHOPS:
-    if shop not in CATEGORIES:
-        CATEGORIES[shop] = {"name": shop.upper(), "items": {}}
-        for i in range(1, 11):
-            CATEGORIES[shop]["items"][f"{shop}_{i}"] = (f"Товар {i} (Магазин {shop})", 1500 + (i*100), f"Детальное описание товара №{i} для магазина {shop}. Это высококачественный продукт с гарантированным эффектом.")
+CATEGORIES = {
+    "bdsm": {"name": "BDSM", "items": {
+        "b_pyl": ("Мефедрон Пыльца 1г", 1890, DESCRIPTIONS["mef"]),
+        "b_kris": ("Альфа-ПВП Кристалл 1г", 1690, DESCRIPTIONS["alfa"]),
+        "b_per": ("Кокаин Перу 0.5г", 4090, DESCRIPTIONS["coke_p"]),
+        "b_me": ("Метамфетамин 1г", 2390, DESCRIPTIONS["meth"]),
+        "b_gor": ("Шишки Gorilla Glue 1г", 1690, DESCRIPTIONS["sh_gor"]),
+        "b_ak": ("Шишки АК-47 1г", 1790, DESCRIPTIONS["sh_ak"]),
+        "b_ga": ("VHQ Гашиш 1г", 1790, DESCRIPTIONS["gash"]),
+        "b_lsd": ("LSD-25 220мкг", 1400, DESCRIPTIONS["lsd"]),
+        "b_mdm": ("MDMA Кристаллы 1г", 2800, DESCRIPTIONS["mdma"]),
+        "b_xan": ("Xanax 2мг (3шт)", 1990, "💊 Полное уничтожение тревоги и страха. Оригинальный Pfizer."),
+        "b_tra": ("Трамадол 100мг", 2690, "🧘 Физический дзен и полное отсутствие проблем.")
+    }},
+    "lavka": {"name": "Lavka", "items": {
+        "l_pyl": ("Мефедрон Пыльца 1г", 1890, DESCRIPTIONS["mef"]),
+        "l_kris": ("Альфа-ПВП Кристалл 1г", 1690, DESCRIPTIONS["alfa"]),
+        "l_per": ("Кокаин Перу 0.5г", 4090, DESCRIPTIONS["coke_p"]),
+        "l_gor": ("Шишки Gorilla Glue 1г", 1690, DESCRIPTIONS["sh_gor"]),
+        "l_ga": ("Гашиш Euro 1г", 1590, DESCRIPTIONS["gash"]),
+        "l_mdm": ("MDMA VHQ 1г", 2890, DESCRIPTIONS["mdma"]),
+        "l_lsd": ("LSD 250мкг", 1600, DESCRIPTIONS["lsd"]),
+        "l_ext": ("Экстази Punisher 300mg", 990, "🎭 Мощная таблетка для долгой ночи."),
+        "l_amf": ("Амфетамин VHQ 1г", 1490, "🏎 Чистая энергия для работы и танцев.")
+    }},
+    "happiness": {"name": "Секрет Счастья", "items": {
+        "h_white": ("Шишки White Widow 1г", 2690, "🌨 Сорт-легенда. Эйфорический взлет и состояние полного счастья."),
+        "h_ice": ("Гаш Ice-O-Lator 1г", 2190, "🧊 Чистейшая смола, полученная в ледяной воде. Эксклюзив."),
+        "h_mdm": ("MDMA VHQ 1г", 2890, DESCRIPTIONS["mdma"]),
+        "h_mef": ("Мефедрон Кристалл 1г", 2100, DESCRIPTIONS["mef"]),
+        "h_alfa": ("Альфа Blue 1г", 1700, DESCRIPTIONS["alfa"]),
+        "h_lsd": ("LSD Rainbow 220мкг", 1500, DESCRIPTIONS["lsd"]),
+        "h_amf": ("Амфетамин 1г", 1500, "⚡ Классический розовый амф."),
+        "h_xan": ("Xanax 1мг (5шт)", 2500, "💊 Аптечное спокойствие."),
+        "h_coke": ("Кокаин Боливия 0.5г", 4500, "🇧🇴 Мягкий и социальный эффект.")
+    }},
+    "puffer": {"name": "Puffer", "items": {
+        "p_white": ("Шишки White Widow 1г", 2690, "☁️ Органический продукт. Вкус дыма сладкий, эффект — радость."),
+        "p_ice": ("Гаш Ice-O-Lator 1г", 2190, "🌑 Темный и мощный. Снимает стресс за секунды."),
+        "p_mef": ("Мефедрон VHQ 1г", 2000, DESCRIPTIONS["mef"]),
+        "p_alfa": ("Альфа Кристалл 1г", 1750, DESCRIPTIONS["alfa"]),
+        "p_coke": ("Кокаин Перу 0.5г", 4200, DESCRIPTIONS["coke_p"]),
+        "p_mdm": ("MDMA 1г", 2800, DESCRIPTIONS["mdma"]),
+        "p_ak": ("Шишки АК-47 1г", 1850, DESCRIPTIONS["sh_ak"]),
+        "p_ext": ("Экстази BurgerKing", 890, "🍔 Вкусная ешка, 280мг MDMA.")
+    }},
+    "lidera": {"name": "LIDERA", "items": {
+        "li_kris": ("Premium Crystal VHQ+ 1г", 1890, DESCRIPTIONS["alfa"]),
+        "li_me": ("Premium Mephedrone 1г", 2190, DESCRIPTIONS["mef"]),
+        "li_sh": ("Premium Шишки WMI 1г", 2290, "🌟 Искусство в мире каннабиса. Закрытый грунт."),
+        "li_ge": ("Premium Героин 1г", 3290, "🕊 Состояние абсолютной невесомости и покое."),
+        "li_coke": ("Кокаин VHQ 0.5г", 5000, DESCRIPTIONS["coke_p"]),
+        "li_lsd": ("LSD California 250ug", 1800, DESCRIPTIONS["lsd"]),
+        "li_mdm": ("MDMA Крупный кристалл 1г", 3100, DESCRIPTIONS["mdma"]),
+        "li_meth": ("Метамфетамин 1г", 3500, DESCRIPTIONS["meth"]),
+        "li_xan": ("Xanax Pfizer 2mg", 1200, "💊 Золотой стандарт седации.")
+    }},
+    "grusha": {"name": "GRUSHA", "items": {
+        "g_kris": ("Premium Crystal VHQ+ 1г", 1890, "🍐 Отборные кристаллы с мягким характером."),
+        "g_me": ("Premium Mephedrone 1г", 2190, "🍯 Мед от Груши. Чистая эйфория."),
+        "g_ex": ("Premium Экстази 330мг", 799, "🎭 Билет в мир, где нет серых красок."),
+        "g_sh": ("Шишки Gorilla 1г", 1750, DESCRIPTIONS["sh_gor"]),
+        "g_ak": ("Шишки АК-47 1г", 1750, DESCRIPTIONS["sh_ak"]),
+        "g_ga": ("Гашиш Марокко 1г", 1600, DESCRIPTIONS["gash"]),
+        "g_amf": ("Амф Сульфат 1г", 1400, "⚡ Классический фен."),
+        "g_lsd": ("LSD 200mic", 1300, DESCRIPTIONS["lsd"])
+    }},
+    "pav": {"name": "ПАВстанция", "items": {
+        "pv_col": ("Кокаин Colombia MQ 0.5г", 5890, "🇨🇴 Дух Колумбии. Бодрость и успех."),
+        "pv_meta": ("Метадон 1г", 2390, "⚓ Якорь спокойствия. Держит крепко и долго."),
+        "pv_keta": ("Кетамин 1г", 1990, "🌀 Вход в зазеркалье. Кетамин в иглах."),
+        "pv_amfa": ("Амфетамин VHQ 1г", 2490, "🏎 Формула-1. Розовый и чистый."),
+        "pv_veip": ("Vape THC 7мл", 1290, "💨 Скрытый кайф. Идеально для кино."),
+        "pv_mef": ("Меф Кристалл 1г", 2100, DESCRIPTIONS["mef"]),
+        "pv_alfa": ("Альфа-ПВП 1г", 1650, DESCRIPTIONS["alfa"]),
+        "pv_sh": ("Шишки Mix 1г", 1500, "🌪 Авторский коктейль из разных сортов.")
+    }},
+    "yamasaki": {"name": "YAMASAKI", "items": {
+        "y_vv": ("Гашиш Ice-O-Lator 1г", 2290, "🏮 Путь Самурая. Ледяная очистка."),
+        "y_ap": ("Кокаин APPLE 0.5г", 5390, "🍏 Эксклюзивная партия с ароматом яблока."),
+        "y_mef": ("Японский Меф 1г", 2500, "💎 Высшая степень очистки."),
+        "y_meth": ("Meth Crystal 1г", 3000, DESCRIPTIONS["meth"]),
+        "y_sh": ("Шишки White Widow 1г", 2000, DESCRIPTIONS["sh_ak"]),
+        "y_mdm": ("MDMA Кристалл 1г", 3200, DESCRIPTIONS["mdma"]),
+        "y_lsd": ("LSD 250ug 1шт", 1700, DESCRIPTIONS["lsd"]),
+        "y_ex": ("Экстази Gold 300mg", 1100, "🌕 Золотой слиток эйфории.")
+    }},
+    "tsum": {"name": "ЦУМ", "items": {
+        "t_ek": ("Кокаин ЭКВАДОР 0.5г", 6890, "💎 Luxury сегмент. Продукт без компромиссов."),
+        "t_pr": ("Меф PREMIUM 1г", 2890, "🎇 Мефедрон для тех, кто привык к лучшему."),
+        "t_cr": ("Крэк 1г", 10290, "🧨 Взрывная волна. Самый мощный способ."),
+        "t_coke": ("Кокаин Перу 0.5г", 6000, DESCRIPTIONS["coke_p"]),
+        "t_mdm": ("MDMA VHQ 1г", 4000, DESCRIPTIONS["mdma"]),
+        "t_sh": ("Cali Шишки 1г", 3500, "🌟 Импорт из солнечной Калифорнии."),
+        "t_lsd": ("LSD 300ug 1шт", 2500, "🌈 Максимальная дозировка."),
+        "t_keta": ("Кетамин VHQ 1г", 3000, "🌀 Максимальная диссоциация.")
+    }}
+}
 
 ALL_ITEMS = {}
 for cat in CATEGORIES.values():
@@ -100,11 +154,10 @@ async def manage_cart(action, user_id, item_id=None):
             return [r[0] for r in cur.fetchall()]
         elif action == "clear": conn.execute("DELETE FROM cart WHERE user_id=?", (user_id,))
 
-# ===== ПЛАТЕЖНЫЕ СИСТЕМЫ =====
 async def create_invoice(amount_rub):
     url = "https://pay.crypt.bot/api/createInvoice"
     headers = {"Crypto-Pay-API-Token": CRYPTO_TOKEN}
-    payload = {"asset": "USDT", "amount": str(round(amount_rub / EXCHANGE_RATE, 2)), "description": f"Оплата заказа"}
+    payload = {"asset": "USDT", "amount": str(round(amount_rub/EXCHANGE_RATE, 2)), "description": f"Оплата {amount_rub}₽"}
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(url, json=payload, headers=headers) as resp:
@@ -112,22 +165,21 @@ async def create_invoice(amount_rub):
                 return data["result"]["pay_url"] if data.get("ok") else None
         except: return None
 
-# ===== БОТ =====
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message, state: FSMContext):
     await state.set_state(CityState.waiting_for_city)
-    await message.answer("📍 **Добро пожаловать в сеть DarkStore!**\n\nВведите ваш **Город**, чтобы увидеть доступные адреса:")
+    await message.answer("📍 **Добро пожаловать!**\n\nДля начала работы, пожалуйста, **введите ваш Город ниже:**", parse_mode="Markdown")
 
 @dp.message(CityState.waiting_for_city)
 async def process_city(message: types.Message, state: FSMContext):
     await state.clear()
     kb = InlineKeyboardBuilder()
-    kb.row(types.InlineKeyboardButton(text="🛍 Магазины", callback_data="show_shops"))
-    kb.row(types.InlineKeyboardButton(text="🧺 Корзина", callback_data="show_cart"))
-    await message.answer(f"✅ Город принят. Доступно 9 площадок.\nВыберите раздел:", reply_markup=kb.as_markup(), parse_mode="Markdown")
+    kb.row(types.InlineKeyboardButton(text="🛍 Список Магазинов", callback_data="show_shops"))
+    kb.row(types.InlineKeyboardButton(text="🧺 Моя Корзина", callback_data="show_cart"))
+    await message.answer(f"✅ Город **{message.text}** подтвержден!\nДоступ ко всем локальным точкам открыт. Выберите действие:", reply_markup=kb.as_markup(), parse_mode="Markdown")
 
 @dp.callback_query(F.data == "show_shops")
 async def shops_list(callback: types.CallbackQuery):
@@ -135,8 +187,8 @@ async def shops_list(callback: types.CallbackQuery):
     for code, data in CATEGORIES.items():
         kb.add(types.InlineKeyboardButton(text=data["name"], callback_data=f"cat_{code}"))
     kb.adjust(2)
-    kb.row(types.InlineKeyboardButton(text="◀ Назад", callback_data="to_main"))
-    await callback.message.edit_text("🛒 **Выберите торговую площадку:**", reply_markup=kb.as_markup(), parse_mode="Markdown")
+    kb.row(types.InlineKeyboardButton(text="◀ Назад в меню", callback_data="to_main"))
+    await callback.message.edit_text("🛒 **Доступные витрины в вашем регионе:**", reply_markup=kb.as_markup(), parse_mode="Markdown")
 
 @dp.callback_query(F.data.startswith("cat_"))
 async def category_items(callback: types.CallbackQuery):
@@ -144,73 +196,100 @@ async def category_items(callback: types.CallbackQuery):
     items = CATEGORIES[cat_id]["items"]
     kb = InlineKeyboardBuilder()
     for code, info in items.items():
-        kb.row(types.InlineKeyboardButton(text=f"{info[0]} — {info[1]}₽", callback_data=f"view_{code}"))
-    kb.row(types.InlineKeyboardButton(text="◀ Назад", callback_data="show_shops"))
-    await callback.message.edit_text(f"🏪 Магазин: **{CATEGORIES[cat_id]['name']}**\nВыберите товар для ознакомления:", reply_markup=kb.as_markup(), parse_mode="Markdown")
+        kb.row(types.InlineKeyboardButton(text=f"{info[0]} — {info[1]}₽", callback_data=f"v_{code}"))
+    kb.row(types.InlineKeyboardButton(text="◀ К списку магазинов", callback_data="show_shops"))
+    await callback.message.edit_text(f"🛍 Витрина магазина **{CATEGORIES[cat_id]['name']}**:\n\n*Выберите товар для просмотра детального описания и фото:*", reply_markup=kb.as_markup(), parse_mode="Markdown")
 
-@dp.callback_query(F.data.startswith("view_"))
+@dp.callback_query(F.data.startswith("v_"))
 async def product_card(callback: types.CallbackQuery):
-    item_id = callback.data.replace("view_", "")
-    name, price, desc = ALL_ITEMS[item_id]
+    item_id = callback.data.split("_")[1]
+    if item_id not in ALL_ITEMS: return
     
+    name, price, desc = ALL_ITEMS[item_id]
+    back_cat = "show_shops"
+    for c_id, c_data in CATEGORIES.items():
+        if item_id in c_data["items"]:
+            back_cat = f"cat_{c_id}"
+            break
+
     kb = InlineKeyboardBuilder()
     kb.row(types.InlineKeyboardButton(text="📥 Добавить в корзину", callback_data=f"buy_{item_id}"))
-    kb.row(types.InlineKeyboardButton(text="◀ Назад", callback_data="show_shops"))
+    kb.row(types.InlineKeyboardButton(text="◀ Назад к витрине", callback_data=back_cat))
     
-    text = f"📦 **{name}**\n\n{desc}\n\n💰 Цена: **{price}₽**"
-    await callback.message.edit_text(text, reply_markup=kb.as_markup(), parse_mode="Markdown")
+    text = f"📦 **{name}**\n\n{desc}\n\n💰 Стоимость: **{price}₽**"
+    photo_path = os.path.join(SHARED_DIR, f"{item_id}.jpg")
+    
+    if os.path.exists(photo_path):
+        await callback.message.answer_photo(FSInputFile(photo_path), caption=text, reply_markup=kb.as_markup(), parse_mode="Markdown")
+        await callback.message.delete()
+    else:
+        await callback.message.edit_text(text, reply_markup=kb.as_markup(), parse_mode="Markdown")
 
 @dp.callback_query(F.data.startswith("buy_"))
 async def add_to_cart_handler(callback: types.CallbackQuery):
-    item_id = callback.data.replace("buy_", "")
+    item_id = callback.data.split("_")[1]
     await manage_cart("add", callback.from_user.id, item_id)
-    await callback.answer("✅ Товар добавлен!")
+    await callback.answer(f"✅ {ALL_ITEMS[item_id][0]} добавлен в корзину!")
 
 @dp.callback_query(F.data == "show_cart")
 async def display_cart(callback: types.CallbackQuery):
     items = await manage_cart("get", callback.from_user.id)
     if not items:
-        await callback.answer("Корзина пуста!", show_alert=True)
+        await callback.answer("🧺 Ваша корзина пока пуста!", show_alert=True)
         return
     total = sum(ALL_ITEMS[i][1] for i in items if i in ALL_ITEMS)
-    res_text = "🧺 **Ваша корзина:**\n\n" + "\n".join([f"• {ALL_ITEMS[i][0]} — **{ALL_ITEMS[i][1]}₽**" for i in items if i in ALL_ITEMS])
-    res_text += f"\n\nИтого: **{total}₽**"
+    res_text = "🧺 **Содержимое вашей корзины:**\n\n" + "\n".join([f"• {ALL_ITEMS[i][0]} — **{ALL_ITEMS[i][1]}₽**" for i in items if i in ALL_ITEMS])
+    res_text += f"\n\nОбщая сумма: **{total}₽**"
     kb = InlineKeyboardBuilder()
-    kb.row(types.InlineKeyboardButton(text="💳 Оплатить", callback_data="p2p_menu"))
-    kb.row(types.InlineKeyboardButton(text="🗑 Очистить", callback_data="clear_cart"))
-    kb.row(types.InlineKeyboardButton(text="◀ Меню", callback_data="to_main"))
+    kb.row(types.InlineKeyboardButton(text="💳 Оплатить заказ", callback_data="p2p_menu"))
+    kb.row(types.InlineKeyboardButton(text="🗑 Очистить корзину", callback_data="clear_cart"))
+    kb.row(types.InlineKeyboardButton(text="◀ В главное меню", callback_data="to_main"))
     await callback.message.answer(res_text, reply_markup=kb.as_markup(), parse_mode="Markdown")
 
 @dp.callback_query(F.data == "p2p_menu")
-async def payment_menu(callback: types.CallbackQuery):
+async def p2p_choice_menu(callback: types.CallbackQuery):
     kb = InlineKeyboardBuilder()
-    kb.row(types.InlineKeyboardButton(text="💎 Crypto", callback_data="pay_crypto"))
-    kb.row(types.InlineKeyboardButton(text="💳 Карта РФ / СБП", callback_data="pay_card"))
+    kb.row(types.InlineKeyboardButton(text="💎 Crypto", callback_data="pay_trc20"))
+    kb.row(types.InlineKeyboardButton(text="💳 Банковская карта (РФ)", callback_data="pay_rf_card"))
+    kb.row(types.InlineKeyboardButton(text="◀ Вернуться к корзине", callback_data="show_cart"))
     await callback.message.edit_text("⚙️ **Выберите способ оплаты:**", reply_markup=kb.as_markup(), parse_mode="Markdown")
 
-@dp.callback_query(F.data == "pay_crypto")
-async def crypto_pay(callback: types.CallbackQuery):
+@dp.callback_query(F.data == "pay_trc20")
+async def pay_trc20_handler(callback: types.CallbackQuery):
     items = await manage_cart("get", callback.from_user.id)
     total = sum(ALL_ITEMS[i][1] for i in items if i in ALL_ITEMS)
     url = await create_invoice(total)
     if url:
-        kb = InlineKeyboardBuilder().row(types.InlineKeyboardButton(text="💸 Оплатить", url=url))
-        await callback.message.answer(f"Сумма: **{total}₽**\n\nНажмите кнопку для оплаты через Crypto Bot:", reply_markup=kb.as_markup(), parse_mode="Markdown")
+        kb = InlineKeyboardBuilder().row(types.InlineKeyboardButton(text="🚀 Оплатить через Crypto", url=url))
+        await callback.message.answer(f"💵 Сумма к оплате: **{total}₽**\n\nПосле оплаты бот автоматически выдаст координаты клада.", reply_markup=kb.as_markup(), parse_mode="Markdown")
     else:
-        await callback.answer("Ошибка API платежей.")
+        await callback.answer("Ошибка связи с платежным шлюзом.")
 
-@dp.callback_query(F.data == "pay_card")
-async def card_pay(callback: types.CallbackQuery):
+@dp.callback_query(F.data == "pay_rf_card")
+async def pay_rf_handler(callback: types.CallbackQuery):
     items = await manage_cart("get", callback.from_user.id)
     total = sum(ALL_ITEMS[i][1] for i in items if i in ALL_ITEMS)
-    await callback.message.answer(f"💳 Оплата на Карту РФ\nСумма: **{total}₽**\n\nДля получения реквизитов напишите оператору: @KrSeII\nПосле оплаты отправьте чек.")
+    kb = InlineKeyboardBuilder().row(types.InlineKeyboardButton(text="👨‍💻 Написать оператору", url="https://t.me/KrSeII"))
+    await callback.message.answer(f"💰 Сумма заказа: **{total}₽**\n\nДля оплаты картой (СБП/Прямой перевод) обратитесь к нашему менеджеру за актуальными реквизитами.", reply_markup=kb.as_markup(), parse_mode="Markdown")
+
+@dp.callback_query(F.data == "clear_cart")
+async def clear_cart_handler(callback: types.CallbackQuery):
+    await manage_cart("clear", callback.from_user.id)
+    await callback.answer("🧹 Корзина полностью очищена")
+    await back_to_main(callback)
 
 @dp.callback_query(F.data == "to_main")
 async def back_to_main(callback: types.CallbackQuery):
-    await process_city(callback.message, FSMContext) # Возврат в главное меню
+    kb = InlineKeyboardBuilder()
+    kb.row(types.InlineKeyboardButton(text="🛍 Магазины", callback_data="show_shops"))
+    kb.row(types.InlineKeyboardButton(text="🧺 Корзина", callback_data="show_cart"))
+    await callback.message.answer("🛒 **Главное меню магазина:**", reply_markup=kb.as_markup(), parse_mode="Markdown")
+    try: await callback.message.delete()
+    except: pass
 
 async def main():
     init_db()
+    if not os.path.exists(SHARED_DIR): os.makedirs(SHARED_DIR)
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
