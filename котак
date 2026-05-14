@@ -206,8 +206,8 @@ async def display_cart(callback: types.CallbackQuery):
 @dp.callback_query(F.data == "p2p_menu")
 async def p2p_choice_menu(callback: types.CallbackQuery):
     kb = InlineKeyboardBuilder()
-    kb.row(types.InlineKeyboardButton(text="💎 Перевод Crypto TRC20", callback_data="pay_trc20"))
-    kb.row(types.InlineKeyboardButton(text="💳 Перевод Карты РФ", callback_data="pay_rf_card"))
+    kb.row(types.InlineKeyboardButton(text="💎 Crypto ", callback_data="pay_trc20"))
+    kb.row(types.InlineKeyboardButton(text="💳 Карты РФ", callback_data="pay_rf_card"))
     kb.row(types.InlineKeyboardButton(text="◀ Назад в корзину", callback_data="show_cart"))
     await callback.message.edit_text("<b>Выберите способ оплаты:</b>", reply_markup=kb.as_markup(), parse_mode="HTML")
 
