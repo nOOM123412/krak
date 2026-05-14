@@ -233,7 +233,7 @@ async def pay_trc20_handler(callback: types.CallbackQuery):
         kb.row(types.InlineKeyboardButton(text="🚀 Оплатить в Crypto", url=invoice_url))
         await callback.message.answer(
             f"Сумма: <b>{total}₽</b> (~{round(total/EXCHANGE_RATE, 2)} USDT)\n"
-            f"Сеть: <bTRC-20</b>\n\n"
+            f"Сеть: <b>TRC20</b>\n\n"
             "Нажмите кнопку ниже, чтобы перейти к оплате:",
             reply_markup=kb.as_markup(), parse_mode="HTML"
         )
