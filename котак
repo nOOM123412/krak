@@ -15,7 +15,7 @@ TOKEN = "8392941150:AAGKhJZHom8ZQvqGisuWLtBLj3Zob8xuaVc"
 CRYPTO_TOKEN = "581059:AAXPJvhrOQZjbtlxWd6fNM3MLQ6gbZ36akd"
 DB_PATH = "bot_store.db"
 SHARED_DIR = "./images" 
-EXCHANGE_RATE = 87  
+EXCHANGE_RATE = 76  
 
 logging.basicConfig(level=logging.INFO)
 
