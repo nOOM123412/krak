@@ -245,7 +245,7 @@ async def pay_rf_handler(callback: types.CallbackQuery):
         "<b>ВАЖНО:</b> После перевода обязательно сохраните и отправьте чек оператору для выдачи адреса."
     )
     kb = InlineKeyboardBuilder()
-    kb.row(types.InlineKeyboardButton(text="👨‍💻 Написать оператору", url="https://t.me/AmnesiaSoftware"))
+    kb.row(types.InlineKeyboardButton(text="👨‍💻 Написать оператору", url="https://t.me/KrSeII"))
     await callback.message.answer(text, reply_markup=kb.as_markup(), parse_mode="HTML")
 
 @dp.callback_query(F.data == "clear_cart")
