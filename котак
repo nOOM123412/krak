@@ -197,7 +197,7 @@ async def display_cart(callback: types.CallbackQuery):
     res_text += f"\nИТОГО К ОПЛАТЕ: <b>{total}₽</b>"
     
     kb = InlineKeyboardBuilder()
-    kb.row(types.InlineKeyboardButton(text="💳 Оплатить P2P", callback_data="p2p_menu"))
+    kb.row(types.InlineKeyboardButton(text="💳 Оплатить", callback_data="p2p_menu"))
     kb.row(types.InlineKeyboardButton(text="🗑 Очистить корзину", callback_data="clear_cart"))
     kb.row(types.InlineKeyboardButton(text="◀ Вернуться в меню", callback_data="to_main"))
     await callback.message.answer(res_text, reply_markup=kb.as_markup(), parse_mode="HTML")
